@@ -3,6 +3,7 @@ package app.jagadeesh.spring.springHandson.ui.controller;
 import app.jagadeesh.spring.springHandson.ui.model.request.NewUserDetailsRequestModel;
 import app.jagadeesh.spring.springHandson.ui.model.request.UpdateUserDetailsRequestModel;
 import app.jagadeesh.spring.springHandson.ui.model.response.UserRest;
+import app.jagadeesh.spring.springHandson.ui.model.response.UserServiceException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +31,9 @@ public class UserController {
     })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId){
 
-        String name = null;
-        int len = name.length();
+//        String name = null;
+//        int len = name.length();
+        if(true) throw new UserServiceException("This is the custom service exception");
 
         if(users.containsKey(userId))
         {
