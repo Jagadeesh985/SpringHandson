@@ -29,6 +29,10 @@ public class UserController {
             MediaType.APPLICATION_XML_VALUE
     })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId){
+
+        String name = null;
+        int len = name.length();
+
         if(users.containsKey(userId))
         {
             UserRest userDetails = users.get(userId);
