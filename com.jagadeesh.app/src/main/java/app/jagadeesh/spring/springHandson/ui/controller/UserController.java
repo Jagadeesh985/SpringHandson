@@ -31,9 +31,9 @@ public class UserController {
     })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId){
 
-//        String name = null;
-//        int len = name.length();
-        if(true) throw new UserServiceException("This is the custom service exception");
+        String name = null;
+        int len = name.length();
+//        if(true) throw new UserServiceException("This is the custom service exception");
 
         if(users.containsKey(userId))
         {
