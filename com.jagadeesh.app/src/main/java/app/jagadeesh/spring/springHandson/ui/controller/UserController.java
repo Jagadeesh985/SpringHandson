@@ -1,5 +1,9 @@
 package app.jagadeesh.spring.springHandson.ui.controller;
 
+import app.jagadeesh.spring.springHandson.ui.model.response.UserRest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,9 +15,14 @@ public class UserController {
         return "Get user was called with page="+ page + " limit="+ limit;
     }
 
-    @GetMapping(value = "/{userId}")
-    public String getUser(@PathVariable String userId){
-        return "Get user was called with userId = "+userId;
+    @GetMapping(value = "/{userId}",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserRest> getUser(@PathVariable String userId){
+        UserRest returnValue = new UserRest();
+        returnValue.setFirstName("Jagadeesh");
+        returnValue.setLastName("Monangi");
+        returnValue.setEmail("Jaggu@gmail.com");
+        returnValue.setPassword("1234");
+        return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }
 
 
