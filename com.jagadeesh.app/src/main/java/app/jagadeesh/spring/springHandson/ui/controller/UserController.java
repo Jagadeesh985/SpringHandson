@@ -7,9 +7,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping
-    public String getUser(){
-        return "Get user was called";
+    public String getUser(@RequestParam(value = "page",required = false) String page,@RequestParam (value = "limit",defaultValue = "50") int limit){
+        return "Get user was called with page="+ page + " limit="+ limit;
     }
+
+    @GetMapping(value = "/{userId}")
+    public String getUser(@PathVariable String userId){
+        return "Get user was called with userId = "+userId;
+    }
+
 
     @PostMapping
     public String createUser(){
