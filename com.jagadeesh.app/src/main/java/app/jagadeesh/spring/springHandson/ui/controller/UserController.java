@@ -1,10 +1,13 @@
 package app.jagadeesh.spring.springHandson.ui.controller;
 
+import app.jagadeesh.spring.springHandson.ui.model.request.NewUserDetailsRequestModel;
 import app.jagadeesh.spring.springHandson.ui.model.response.UserRest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("users")
@@ -15,7 +18,10 @@ public class UserController {
         return "Get user was called with page="+ page + " limit="+ limit;
     }
 
-    @GetMapping(value = "/{userId}",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/{userId}",produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId){
         UserRest returnValue = new UserRest();
         returnValue.setFirstName("Jagadeesh");
@@ -26,9 +32,24 @@ public class UserController {
     }
 
 
-    @PostMapping
-    public String createUser(){
-        return "Create user was called";
+    @PostMapping(produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    }, consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
+    public ResponseEntity<UserRest> createUser(@RequestBody NewUserDetailsRequestModel userDetails){
+        UserRest returnValue = new UserRest();
+        returnValue.setFirstName(userDetails.getFirstName());
+        returnValue.setLastName(userDetails.getLastName());
+        returnValue.setEmail(userDetails.getEmail());
+        returnValue.setPassword(userDetails.getPassword());
+
+        String userId = UUID.randomUUID().toString();
+        returnValue.setUserId(userId);
+
+        return new ResponseEntity<UserRest>(returnValue,HttpStatus.OK);
     }
 
     @PutMapping
