@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -60,8 +61,9 @@ public class UserController {
             MediaType.APPLICATION_XML_VALUE
     })
     public ResponseEntity<UserRest> createUser(@Valid @RequestBody NewUserDetailsRequestModel userDetails){
-        UserRest returnValue = userService.createUser(userDetails);
-
+        Map<String, Object> usersInfo = userService.createUser(userDetails,users);
+        users = (Map<String, UserRest>) usersInfo.get("users");
+        UserRest returnValue = users.get(usersInfo.get("userId"));
         return new ResponseEntity<UserRest>(returnValue,HttpStatus.OK);
     }
 
