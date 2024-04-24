@@ -1,9 +1,24 @@
 package app.jagadeesh.spring.springHandson.ui.model.request;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class NewUserDetailsRequestModel {
+
+    @NotNull(message = "First name cannot be null")
+    @Size(min=2,message = "First name size need to be grater than or equal to 2")
     private String firstName;
+
+    @NotNull(message = "Last name cannot be null")
     private String lastName;
+
+    @NotNull(message = "Email name cannot be null")
+    @Email
     private String email;
+
+    @NotNull(message = "Password name cannot be null")
+    @Size(min=8,max=24,message = "Password must be equal or greater than 8 and less than 24 characters")
     private String password;
 
     public String getFirstName() {
