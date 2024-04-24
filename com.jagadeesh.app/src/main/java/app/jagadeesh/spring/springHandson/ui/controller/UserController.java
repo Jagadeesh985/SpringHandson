@@ -4,7 +4,10 @@ import app.jagadeesh.spring.springHandson.ui.model.request.NewUserDetailsRequest
 import app.jagadeesh.spring.springHandson.ui.model.request.UpdateUserDetailsRequestModel;
 import app.jagadeesh.spring.springHandson.ui.model.response.UserRest;
 import app.jagadeesh.spring.springHandson.ui.model.response.UserServiceException;
+import app.jagadeesh.spring.springHandson.userservice.UserService;
+import app.jagadeesh.spring.springHandson.userservice.implement.UserServiceImplement;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("users")
 public class UserController {
+
+    @Autowired
+    UserService userService;
 
     Map<String,UserRest> users;
 
@@ -31,8 +37,8 @@ public class UserController {
     })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId){
 
-        String name = null;
-        int len = name.length();
+//        String name = null;
+//        int len = name.length();
 //        if(true) throw new UserServiceException("This is the custom service exception");
 
         if(users.containsKey(userId))
@@ -54,16 +60,7 @@ public class UserController {
             MediaType.APPLICATION_XML_VALUE
     })
     public ResponseEntity<UserRest> createUser(@Valid @RequestBody NewUserDetailsRequestModel userDetails){
-        UserRest returnValue = new UserRest();
-        returnValue.setFirstName(userDetails.getFirstName());
-        returnValue.setLastName(userDetails.getLastName());
-        returnValue.setEmail(userDetails.getEmail());
-        returnValue.setPassword(userDetails.getPassword());
-
-        String userId = UUID.randomUUID().toString();
-        returnValue.setUserId(userId);
-        if(users == null) users = new HashMap<>();
-        users.put(userId,returnValue);
+        UserRest returnValue = userService.createUser(userDetails);
 
         return new ResponseEntity<UserRest>(returnValue,HttpStatus.OK);
     }
