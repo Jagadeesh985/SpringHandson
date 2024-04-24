@@ -19,4 +19,12 @@ public class AppExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(), ex.getLocalizedMessage());
         return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(value = {NullPointerException.class})
+    public ResponseEntity<Object> anyExceptionHandler(NullPointerException ex, WebRequest request){
+        String message = ex.getLocalizedMessage();
+        if(message == null) message = ex.toString();
+        ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(), ex.getLocalizedMessage());
+        return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
